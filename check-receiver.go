@@ -7,6 +7,7 @@ import (
 	"time"
 	"io/ioutil"
 	"regexp"
+	"os"
 )
 
 const status_file_dir = "/var/check-receiver/status-files/"
@@ -44,7 +45,11 @@ func handler(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	fmt.Println("STATUS_FILE_DIR:", status_file_dir)
+	fmt.Println("status_file_dir:", status_file_dir)
+	err := os.MkdirAll(status_file_dir, 0755)
+	if (err != nil) {
+		fmt.Println("creating status-dir ", status_file_dir, " failed: ", err)
+	}
 
 	http.HandleFunc("/", handler)
 	http.ListenAndServe(":8080", nil)
