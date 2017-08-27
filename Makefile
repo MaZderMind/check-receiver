@@ -8,6 +8,7 @@ run:
 
 check-receiver: check-receiver.go
 	CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o check-receiver .
+	strip check-receiver
 
 container: binary
 	docker build -t mazdermind/check-receiver:latest .
